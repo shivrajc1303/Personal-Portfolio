@@ -1,0 +1,17 @@
+/* Design tokens: the only place raw values live */
+:root{
+  --font:"Space Grotesk","Space Grotesk Fallback",system-ui,sans-serif;
+  --c-ink:#161616;--c-black:#000;--c-white:#fff;--c-yellow:#FACC00;--c-stone:#D8D6D0;
+  --color-background:var(--c-black);--color-text:var(--c-white);--color-text-muted:#c9c7c1;
+  --color-surface:var(--c-white);--color-surface-text:var(--c-ink);--color-surface-muted:#4a4a48;
+  --color-accent:var(--c-yellow);--color-accent-foreground:var(--c-ink);
+  --color-border:var(--c-ink);--color-border-muted:rgba(22,22,22,.32);
+  --color-focus:#0057ff;--color-error:#b00020;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:40px;--s7:72px;
+  --r-card:8px;--r-pill:50px;--r-full:999px;
+  --shadow-1:4px 4px 0 var(--c-ink);--shadow-2:2px 2px 0 var(--c-ink);
+  --t-fast:180ms;--t-mid:240ms;--t-norm:260ms;
+  --fs-caption:12px;--fs-small:15px;--fs-body:17px;--fs-h3:18px;
+  --fs-h2:clamp(32px,6vw,60px);--fs-display:clamp(44px,13vw,96px);
+  --wrap:1120px;--nav-h:64px;
+}
