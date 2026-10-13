@@ -10,16 +10,16 @@
   if (!D) { $("#main").prepend(el("p", "wrap err", "Content could not be loaded. Please email " + "chorageshivraj@gmail.com instead.")); return; }
 
   /* links: single source of truth (data.js). Empty URL hides the control. */
-  var hrefs = { github: D.links.github, linkedin: D.links.linkedin, certs: D.links.certs, resume: D.links.resume, email: "mailto:" + D.email };
+  var hrefs = { github: D.links.github, linkedin: D.links.linkedin, certs: D.links.certs, resume: D.links.resume, email: "mailto:" + D.email,instagram: D.links.instagram };
   $$("[data-link]").forEach(function (a) {
     var u = hrefs[a.dataset.link];
     if (u) { a.href = u; a.hidden = false; } else { a.hidden = true; }
   });
 
   /* facts + contact */
-  [["Location", "Pune, Maharashtra, India"], ["Studying", "B.Tech AI & ML, JSPM University (2027)"], ["Languages", "Python, C++, C, Java"], ["Speaks", D.spoken], ["Direction", "Software Developer / SDE"]]
+  [["Location", "Pune, Maharashtra, India"], ["Studying", "B.Tech AI & ML, JSPM University (2027)"], ["Languages", "Python, C, C++, Java"], ["Focus", "NLP, computer vision, deep learning"], ["Speaks", D.spoken], ["Direction", "AI/ML and software roles"]]
     .forEach(function (f) { $("#facts").append(el("dt", "", f[0]), el("dd", "", f[1])); });
-  [["Email", D.email, "mailto:" + D.email], ["Phone", D.phone, "tel:" + D.phone.replace(/\s/g, "")], ["LinkedIn", "Shivraj Chorage on LinkedIn", D.links.linkedin, 1], ["GitHub", "shivrajc1303 on GitHub", D.links.github, 1]]
+  [["Email", D.email, "mailto:" + D.email], ["Phone", D.phone, "tel:" + D.phone.replace(/\s/g, "")], ["LinkedIn", "Shivraj Chorage on LinkedIn", D.links.linkedin, 1], ["GitHub", "shivrajc1303 on GitHub", D.links.github, 1],["Instagram", "shivrajc1303 on Instagram", D.links.instagram, 1]]
     .forEach(function (c) {
       if (!c[2]) return;
       var li = el("li"), a = el("a", "lnk", c[1]); a.href = c[2];
@@ -41,15 +41,15 @@
     var d = el("div"); d.append(el("h4", "", title));
     if (Array.isArray(v) && v.length) { var u = el("ul", "bul"); v.forEach(function (x) { u.append(el("li", "", x)); }); d.append(u); }
     else if (typeof v === "string" && v) d.append(el("p", "", v));
-    else d.append(el("p", "empty", "To be added."));
+    else return document.createDocumentFragment();
     return d;
   }
   function openProject(p, btn) {
     opener = btn; var b = $("#dlgBody"); b.replaceChildren();
     var h = el("h3", "", p.title); h.id = "dlg-t";
-    b.append(h, el("span", "status", p.status), el("p", "", p.shortDescription), block("Problem", p.problem), block("Solution", p.solution), block("Key features", p.features));
+    b.append(h, el("span", "status", p.status), el("p", "", p.shortDescription), block("Objective", p.problem), block("Approach", p.solution), block("Key features", p.features));
     var t = el("div"); t.append(el("h4", "", "Technology"), tagList(p.technologies)); b.append(t);
-    b.append(block("Architecture", p.architecture), block("Challenges", p.challenges), block("Lessons learned", p.lessonsLearned));
+    b.append(block("Evaluation", p.evaluation), block("Architecture", p.architecture), block("Challenges", p.challenges), block("Lessons learned", p.lessonsLearned));
     var row = el("div", "row");
     [["Source code", p.githubUrl], ["Live demo", p.liveUrl]].forEach(function (l) {
       if (!l[1]) return; var a = el("a", "btn alt", l[0]); a.href = l[1]; a.target = "_blank"; a.rel = "noopener noreferrer";
@@ -70,10 +70,16 @@
   });
 
   /* experience + certs */
-  var I = D.internship, ic = el("article", "card"); ic.dataset.r = "";
-  var iu = el("ul", "bul"); I.points.forEach(function (x) { iu.append(el("li", "", x)); });
-  ic.append(el("span", "status", "Internship"), el("h3", "", I.role), el("p", "", I.org), el("p", "muted", I.date), iu); $("#expGrid").append(ic);
-  D.certs.forEach(function (x) { var c = el("article", "card"); c.dataset.r = ""; c.append(el("span", "status", "Certificate"), el("h3", "", x.title), el("p", "muted", x.meta)); $("#expGrid").append(c); });
+  D.internships.forEach(function (I) {
+    var c = el("article", "card"); c.dataset.r = "";
+    c.append(el("span", "status", I.type), el("h3", "", I.role), el("p", "", I.org), el("p", "muted", I.date));
+    if (I.points.length) { var u = el("ul", "bul"); I.points.forEach(function (x) { u.append(el("li", "", x)); }); c.append(u); }
+    $("#expGrid").append(c);
+  });
+  D.certGroups.forEach(function (g) {
+    var c = el("article", "card"), u = el("ul", "bul"); c.dataset.r = ""; c.append(el("h3", "", g.group));
+    g.items.forEach(function (x) { u.append(el("li", "", x)); }); c.append(u); $("#certGrid").append(c);
+  });
 
   /* education */
   D.education.forEach(function (e) {
@@ -87,6 +93,9 @@
     $("#eduGrid").append(c);
   });
   D.achievements.forEach(function (a) { var c = el("article", "card"); c.dataset.r = ""; c.append(el("span", "status", a.kind), el("h3", "", a.title), el("p", "muted", a.date)); $("#achGrid").append(c); });
+  var vc = el("article", "card"), vu = el("ul", "bul"); vc.dataset.r = ""; vc.append(el("span", "status", "Volunteering"), el("h3", "", "Community volunteering"));
+  D.volunteering.forEach(function (x) { vu.append(el("li", "", x)); }); vc.append(vu); $("#achGrid").append(vc);
+  var hc = el("article", "card"); hc.dataset.r = ""; hc.append(el("span", "status", "Interests"), el("h3", "", "Outside of work"), tagList(D.interests)); $("#achGrid").append(hc);
 
   /* contact form: builds a mailto, never claims to send */
   var st = $("#status");

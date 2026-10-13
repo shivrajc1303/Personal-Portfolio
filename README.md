@@ -6,7 +6,7 @@ Static site, no build step. Open `index.html`, or serve the folder with any stat
 index.html        structure, SEO, icon sprite
 css/tokens.css    design tokens (colour, type, spacing, radius, shadow, motion)
 css/styles.css    base, layout, components, responsive, reduced motion
-js/data.js        ALL content: edit this file to update the site
+js/data.js        ALL content (from the detailed CV): edit this file to update the site
 js/main.js        rendering, dialog, menu, form, active-nav
 ```
 
